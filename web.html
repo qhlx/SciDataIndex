@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SciDataIndex</title>
+
+<style>
+/* ===============================
+   全局
+=============================== */
+body {
+    margin: 0;
+    font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #f5f6fa;
+}
+
+/* ===============================
+   Hero
+=============================== */
+.hero {
+    background: radial-gradient(ellipse at center, #1b2a4a 0%, #0b0f1a 70%);
+    padding: 90px 20px 80px;
+    text-align: center;
+    color: white;
+}
+
+.hero h1 {
+    font-size: 52px;
+    margin-bottom: 16px;
+}
+
+.hero p {
+    font-size: 18px;
+    color: #b8c1d1;
+}
+
+.search-box {
+    margin-top: 30px;
+}
+
+.search-box input {
+    width: 760px;
+    max-width: 90%;
+    padding: 14px 18px;
+    border-radius: 8px;
+    border: none;
+    font-size: 20px;
+}
+
+/* ===============================
+   页面主体
+=============================== */
+.page {
+    background: #f5f6fa;
+}
+
+.container {
+    max-width: 1400px;   /* 🔥 控制阅读宽度 */
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+/* ===============================
+   Section 通用
+=============================== */
+.section {
+    margin-bottom: 64px;
+}
+
+.section-title {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+/* ===============================
+   学科卡片
+=============================== */
+.topics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(240px, 1fr));
+    gap: 24px;
+}
+
+.topic-card {
+    height: 120px;
+    border-radius: 14px;
+    background: #f6f8fb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 600;
+    cursor: pointer;
+
+       /* 🔥 新增：默认轮廓 */
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+
+    transition: all 0.25s ease;
+}
+
+
+.topic-card:hover {
+    background: #e9ecff;
+}
+
+.topic-card.active {
+    background: linear-gradient(135deg, #4f6ef7, #6a5cf6);
+    color: white;
+    box-shadow: 0 12px 30px rgba(79,110,247,0.35);
+}
+
+/* ===============================
+   数据集区域
+=============================== */
+.dataset-panel {
+    background: white;
+    border-radius: 18px;
+    padding: 32px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+.datasets {
+    margin-top: 24px;
+}
+
+.dataset-item {
+    padding: 20px;
+    border-radius: 12px;
+    background: #f9fafc;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dataset-item:hover {
+    background: #eef1ff;
+}
+
+.dataset-item strong {
+    font-size: 20px;
+}
+
+.dataset-item span {
+    display: block;
+    font-size: 18px;
+    color: #666;
+    margin-top: 6px;
+}
+
+/* ===============================
+   评分表格
+=============================== */
+.rating-table {
+    margin-top: 14px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+}
+
+.rating-cell {
+    background: white;
+    border-radius: 8px;
+    padding: 10px 6px;
+    text-align: center;
+    border: 1px solid rgba(0,0,0,0.06);
+}
+
+.rating-label {
+    font-size: 14px;
+    color: #888;
+}
+
+.rating-score {
+    font-size: 20px;
+    font-weight: 600;
+    color: #4f6ef7;
+}
+
+/* ===============================
+   日志输出
+=============================== */
+.search-log {
+    display: none;              /* 🔥 默认不显示 */
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    font-size: 15px;
+    color: #cdd5ff;
+    line-height: 1.6;
+}
+.search-log .log-item {
+    opacity: 0.9;
+}
+/* ===============================
+   选择搜索内容
+=============================== */
+#searchType {
+    padding: 0 12px;
+    height: 48px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    background: #ffffff;
+    cursor: pointer;
+}
+/* ===============================
+   暂停按钮
+=============================== */
+#stopBtn {
+    padding: 0 18px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    background: #ff5c5c;
+    color: white;
+    opacity: 0.7;
+}
+
+#stopBtn:enabled {
+    opacity: 1;
+}
+
+#stopBtn:disabled {
+    cursor: not-allowed;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<!-- Hero -->
+<div class="hero">
+    <h1>SciDataIndex</h1>
+    <p>为科学智能与大模型提供高质量开放数据资源</p>
+
+    <div class="search-box">
+        <div style="display: flex; gap: 10px; justify-content: center;">
+            <!-- 🔽 下拉选择 -->
+            <select id="searchType">
+                <option value="dataset">科学数据</option>
+                <option value="task">科学任务</option>
+            </select>
+            <input
+                type="text"
+                placeholder="搜索数据集名称、学科或关键词"
+                onkeydown="onSearchKeydown(event)"
+            />
+
+            <button id="stopBtn" onclick="stopSearch()" disabled>
+                    停止
+            </button>
+        </div>
+    </div>
+    <div class="search-log" id="searchLog"></div>
+</div>
+
+<!-- 主体 -->
+<div class="page">
+    <div class="container">
+
+        <!-- 专题推荐 -->
+        <section class="section">
+            <div class="section-title">专题推荐</div>
+            <div class="topics" id="topics"></div>
+        </section>
+
+        <!-- 数据集 -->
+        <section class="section">
+            <div class="dataset-panel">
+                <div class="section-title" id="datasetTitle"></div>
+                <div class="datasets" id="datasets"></div>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<script>
+// const API_BASE = "http://10.3.36.114:8000/api";
+const API_BASE = "http://localhost:8000/api";
+
+let currentTopic = null;
+const DEFAULT_TOPIC = "地球科学";
+let currentFetchController = null;
+let currentEventSource = null;
+let searchCanceled = false;
+let logCursor = 0;
+/* ===============================
+   搜索
+=============================== */
+async function onSearchKeydown(e) {
+    if (e.key === "Enter") {
+        // 获取输入框中的值
+        const query = e.target.value.trim();
+         // 🔥 新增：获取当前下拉选项
+        const searchType = document.getElementById("searchType").value;
+        console.log("searchType: " + searchType);
+         // ✅ 1. 新搜索正式开始
+        resetSearchLog();
+        searchCanceled = false;
+
+        // ✅ 2. 启用停止按钮
+        document.getElementById("stopBtn").disabled = false;
+
+        // ✅ 3. 启动日志流（只在搜索时）
+        startLogStream();
+
+        // ✅ 4. 创建 fetch 的 abort controller
+        currentFetchController = new AbortController();
+
+        // 如果输入不为空，跳转到 dataset.html 页面，并传递 query 参数
+        if (query) {
+            // window.location.href = `dataset.html?id=${encodeURIComponent(query)}`;
+            try {
+                // logSearch(`🔍 接收到查询：${query}`);
+                // logSearch("📡 正在判断是否为已知数据集…");
+                const res = await fetch(
+                  `${API_BASE}/dataset-exists?query=${encodeURIComponent(query)}&type=${searchType}`
+                );
+                console.log(res);
+                if (!res.ok) throw new Error("check failed");
+
+                if (searchCanceled) return;
+                const data = await res.json();
+                if (searchCanceled) return;
+
+                if (data.type === "dataset" && data.exists) {
+                    // ✅ 已知数据集 → 数据集详情页
+                    window.location.href =
+                        `dataset.html?id=${encodeURIComponent(data.dataset_id)}`;
+
+                }
+                else if (data.type === "dataset" && !data.exists) {
+                    // ❌ 数据集名但未收录
+                    alert("❌ 未找到该数据集，请检查名称或尝试关键词搜索");
+
+                }
+                else if (data.type === "text") {
+                    // 🔥 自然语言 / 描述 → 搜索结果页
+                    window.location.href =
+                        `result.html?q=${encodeURIComponent(query)}`;
+
+                }
+                else {
+                    alert("⚠️ 无法识别输入内容");
+                }
+
+              } catch (err) {
+                if (err.name === "AbortError") {
+                    logSearch("⏹️ 搜索已停止");
+                } else {
+                    console.error(err);
+                    alert("⚠️ 系统异常，请稍后再试");
+                }
+              }
+              finally {
+                document.getElementById("stopBtn").disabled = true;
+                currentFetchController = null;
+              }
+        }
+    }
+}
+
+/* ===============================
+   学科 & 数据集
+=============================== */
+async function loadTopics() {
+    const res = await fetch(`${API_BASE}/topics`);
+    const topics = await res.json();
+    const el = document.getElementById("topics");
+    el.innerHTML = "";
+
+    let defaultEl = null;
+
+    topics.forEach(t => {
+        const div = document.createElement("div");
+        div.className = "topic-card";
+        div.innerText = t;
+        div.onclick = () => selectTopic(t, div);
+        el.appendChild(div);
+
+        // 🔥 记录默认学科对应的 DOM
+        if (t === DEFAULT_TOPIC) {
+            defaultEl = div;
+        }
+    });
+
+    // 🔥 页面首次加载时，自动选中「物质科学」
+    if (defaultEl) {
+        selectTopic(DEFAULT_TOPIC, defaultEl);
+    }
+}
+
+async function selectTopic(topic, el) {
+    currentTopic = topic;
+    document
+        .querySelectorAll(".topic-card")
+        .forEach(n => n.classList.remove("active"));
+    el.classList.add("active");
+
+    const res = await fetch(`${API_BASE}/datasets?topic=${topic}`);
+    const data = await res.json();
+    renderDatasets(data, `${topic} · 数据集`);
+}
+
+function renderDatasets(datasets, title) {
+    document.getElementById("datasetTitle").innerText = title;
+    const el = document.getElementById("datasets");
+    el.innerHTML = "";
+
+    datasets.forEach(ds => {
+        const div = document.createElement("div");
+        div.className = "dataset-item";
+
+         // 🔥 核心：点击跳转到统一详情页
+        div.onclick = () => {
+            window.location.href =
+                `dataset.html?id=${encodeURIComponent(ds.name)}`;
+        };
+
+        div.innerHTML = `
+            <strong>${ds.name}</strong>
+            <span>${ds.desc}</span>
+
+            <div class="rating-table">
+                <div class="rating-cell">
+                    <div class="rating-label">开放性</div>
+                    <div class="rating-score">${ds.rating?.openness ?? "-"}</div>
+                </div>
+                <div class="rating-cell">
+                    <div class="rating-label">数据集规模</div>
+                    <div class="rating-score">${ds.rating?.scale ?? "-"}</div>
+                </div>
+                <div class="rating-cell">
+                    <div class="rating-label">影响力</div>
+                    <div class="rating-score">${ds.rating?.impact ?? "-"}</div>
+                </div>
+                <div class="rating-cell">
+                    <div class="rating-label">安全性</div>
+                    <div class="rating-score">${ds.rating?.safety ?? "-"}</div>
+                </div>
+                <div class="rating-cell">
+                    <div class="rating-label">AI就绪度</div>
+                    <div class="rating-score">${ds.rating?.ai_readiness ?? "-"}</div>
+                </div>
+                <div class="rating-cell">
+                    <div class="rating-label">数据质量</div>
+                    <div class="rating-score">${ds.rating?.quality ?? "-"}</div>
+                </div>
+                <div class="rating-cell">
+                    <div class="rating-label">综合评分</div>
+                    <div class="rating-score">${ds.rating?.total_score ?? "-"}</div>
+                </div>
+            </div>
+        `;
+        el.appendChild(div);
+    });
+}
+
+function logSearch(msg) {
+    const log = document.getElementById("searchLog");
+
+    if (log.style.display === "none") {
+        log.style.display = "block";
+    }
+
+    const div = document.createElement("div");
+    div.className = "log-item";
+    div.innerText = msg;
+    log.appendChild(div);
+
+    log.scrollTop = log.scrollHeight;
+}
+
+
+/* 初始化 */
+loadTopics();
+function resetSearchLog() {
+    const log = document.getElementById("searchLog");
+    log.innerHTML = "";
+    log.style.display = "none";
+    log.style.opacity = "1";
+}
+
+/**
+ * 🔥 页面首次加载 + 浏览器返回都会触发
+ */
+window.addEventListener("pageshow", () => {
+    resetSearchLog();
+});
+
+function startLogStream() {
+    // 🔥 关键：先关旧的
+    if (currentEventSource) {
+        currentEventSource.close();
+        currentEventSource = null;
+    }
+
+    currentEventSource = new EventSource(`${API_BASE}/log-stream?since=${logCursor}`);
+
+    currentEventSource.onmessage = (e) => {
+        if (!searchCanceled) {
+            logSearch("📡 " + e.data);
+            // 🔥 4️⃣ 关键：每成功处理一条日志，就前进游标
+            logCursor++;
+        }
+    };
+
+    currentEventSource.onerror = () => {
+        currentEventSource.close();
+    };
+}
+
+function stopSearch() {
+    searchCanceled = true;
+
+    logSearch("⏹️ 用户停止了搜索");
+
+    // 1️⃣ 中断 fetch
+    if (currentFetchController) {
+        currentFetchController.abort(); // 停止等待后端响应
+        currentFetchController = null;
+    }
+
+    // 2️⃣ 关闭日志流
+    if (currentEventSource) {
+        currentEventSource.close(); // 不再接收日志
+        currentEventSource = null;
+    }
+
+    // 3️⃣ 禁用按钮
+    document.getElementById("stopBtn").disabled = true; // 现在已经没有搜索在进行
+}
+
+// es.onmessage = (e) => {
+//     logSearch("📡 " + e.data);
+// };
+
+</script>
+
+</body>
+</html>

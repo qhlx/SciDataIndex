@@ -124,7 +124,7 @@
     .board-head,
     .board-row {
       display: grid;
-      grid-template-columns: 80px 1.6fr 1fr 120px 120px 140px;
+      grid-template-columns: 80px 1.6fr repeat(6, 90px) 120px;
       gap: 12px;
       padding: 16px 20px;
       align-items: center;
@@ -200,12 +200,20 @@
         gap: 10px;
       }
 
+      .board-head div:nth-child(3),
       .board-head div:nth-child(4),
       .board-head div:nth-child(5),
       .board-head div:nth-child(6),
+      .board-head div:nth-child(7),
+      .board-head div:nth-child(8),
+      .board-head div:nth-child(9),
+      .board-row div:nth-child(3),
       .board-row div:nth-child(4),
       .board-row div:nth-child(5),
-      .board-row div:nth-child(6) {
+      .board-row div:nth-child(6),
+      .board-row div:nth-child(7),
+      .board-row div:nth-child(8),
+      .board-row div:nth-child(9) {
         display: none;
       }
     }
@@ -242,9 +250,12 @@
       <div class="board-head">
         <div>排名</div>
         <div>数据集</div>
-        <div>领域</div>
         <div>开放性</div>
+        <div>规模</div>
+        <div>影响力</div>
+        <div>安全性</div>
         <div>AI 就绪度</div>
+        <div>数据质量</div>
         <div>综合评分</div>
       </div>
       <div id="boardRows"></div>
@@ -354,7 +365,11 @@
     datasets.forEach((ds, index) => {
       const total = ds.rating?.total_score;
       const openness = ds.rating?.openness;
+      const scale = ds.rating?.scale;
+      const impact = ds.rating?.impact;
+      const safety = ds.rating?.safety;
       const aiReady = ds.rating?.ai_readiness;
+      const quality = ds.rating?.quality;
       const row = document.createElement("div");
       row.className = "board-row";
       const fileName = toFileName(ds.name);
@@ -364,9 +379,12 @@
           <a class="dataset-name" href="../dataset_detail.html?name=${encodeURIComponent(ds.name)}&file=${encodeURIComponent(fileName)}">${ds.name}</a>
           <div class="dataset-desc">${ds.desc}</div>
         </div>
-        <div>${TOPIC}</div>
         <div>${formatScore(openness)}</div>
+        <div>${formatScore(scale)}</div>
+        <div>${formatScore(impact)}</div>
+        <div>${formatScore(safety)}</div>
         <div>${formatScore(aiReady)}</div>
+        <div>${formatScore(quality)}</div>
         <div>
           <div class="score">${formatScore(total)}</div>
           <div class="score-bar"><span style="width: ${clampPercent(total)}%;"></span></div>

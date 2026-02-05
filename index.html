@@ -1,767 +1,286 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SciDataIndex</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SciDataIndex</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&display=swap");
 
-<style>
-/* ===============================
-   全局
-=============================== */
-body {
-    margin: 0;
-    font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: #f5f6fa;
-}
+    :root {
+      --bg-0: #02061a;
+      --bg-1: #040b2d;
+      --bg-2: #071a4d;
+      --glow: #53d3ff;
+      --accent: #2ee6c9;
+      --text-0: #e9f2ff;
+      --text-1: #b6c7e6;
+      --card: rgba(14, 33, 79, 0.58);
+      --stroke: rgba(255, 255, 255, 0.2);
+      --btn: #6bdcff;
+      --btn-dark: #23345e;
+    }
 
-/* ===============================
-   Hero
-=============================== */
-.hero {
-    background: radial-gradient(ellipse at center, #1b2a4a 0%, #0b0f1a 70%);
-    padding: 90px 20px 80px;
-    text-align: center;
-    color: white;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-.hero h1 {
-    font-size: 52px;
-    margin-bottom: 16px;
-}
+    body {
+      margin: 0;
+      font-family: "Sora", "HarmonyOS Sans SC", "PingFang SC", sans-serif;
+      color: var(--text-0);
+      background: radial-gradient(1200px 500px at 10% 40%, #1d3b9b 0%, transparent 60%),
+        radial-gradient(1000px 600px at 70% 10%, #0d1640 0%, transparent 70%),
+        linear-gradient(180deg, var(--bg-2) 0%, var(--bg-1) 40%, var(--bg-0) 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-.hero p {
-    font-size: 18px;
-    color: #b8c1d1;
-}
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.35) 0 1px, transparent 2px),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.25) 0 1px, transparent 2px),
+        radial-gradient(circle at 40% 80%, rgba(255,255,255,0.2) 0 1px, transparent 2px);
+      opacity: 0.4;
+      mix-blend-mode: screen;
+    }
 
-.search-box {
-    margin-top: 30px;
-}
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      position: sticky;
+      top: 0;
+      background: rgba(3, 9, 32, 0.7);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      z-index: 10;
+    }
 
-.search-box input {
-    width: 760px;
-    max-width: 90%;
-    padding: 14px 18px;
-    border-radius: 8px;
-    border: none;
-    font-size: 20px;
-}
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      font-size: 20px;
+      color: var(--glow);
+    }
 
-/* ===============================
-   页面主体
-=============================== */
-.page {
-    background: #f5f6fa;
-}
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #6bf6ff, #1aa7ff 60%, #0a3476 100%);
+      box-shadow: 0 0 20px rgba(83, 211, 255, 0.55);
+      position: relative;
+    }
 
-.container {
-    max-width: 1400px;   /* 🔥 控制阅读宽度 */
-    margin: 0 auto;
-    padding: 60px 20px;
-}
+    .brand-logo::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+    }
 
-/* ===============================
-   Section 通用
-=============================== */
-.section {
-    margin-bottom: 64px;
-}
+    .nav-links {
+      display: flex;
+      gap: 26px;
+      font-size: 14px;
+      color: var(--text-1);
+    }
 
-.section-title {
-    font-size: 32px;
-    font-weight: 600;
-    margin-bottom: 24px;
-}
+    .nav-links a {
+      color: inherit;
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 6px;
+    }
 
-/* ===============================
-   学科卡片
-=============================== */
-.topics {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(240px, 1fr));
-    gap: 24px;
-}
+    .nav-links a:hover::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
 
-.topic-card {
-    height: 120px;
-    border-radius: 14px;
-    background: #f6f8fb;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: 600;
-    cursor: pointer;
+    .nav-action {
+      padding: 6px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      color: var(--text-0);
+      background: rgba(255, 255, 255, 0.08);
+      font-size: 13px;
+    }
 
-       /* 🔥 新增：默认轮廓 */
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    .hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 70px 24px 80px;
+      text-align: center;
+      position: relative;
+    }
 
-    transition: all 0.25s ease;
-}
+    .hero-title {
+      font-size: clamp(36px, 6vw, 60px);
+      margin: 10px 0;
+      color: var(--accent);
+      font-weight: 700;
+      text-shadow: 0 0 20px rgba(46, 230, 201, 0.4);
+    }
 
+    .hero-subtitle {
+      font-size: clamp(18px, 3vw, 28px);
+      font-weight: 600;
+      margin-bottom: 26px;
+    }
 
-.topic-card:hover {
-    background: #e9ecff;
-}
+    .hero-tabs {
+      display: inline-flex;
+      border: 1px solid var(--stroke);
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.08);
+      margin-bottom: 24px;
+    }
 
-.topic-card.active {
-    background: linear-gradient(135deg, #4f6ef7, #6a5cf6);
-    color: white;
-    box-shadow: 0 12px 30px rgba(79,110,247,0.35);
-}
+    .hero-tabs span {
+      padding: 10px 22px;
+      font-size: 13px;
+      color: var(--text-1);
+    }
 
-/* ===============================
-   数据集区域
-=============================== */
-.dataset-panel {
-    background: white;
-    border-radius: 18px;
-    padding: 32px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-}
+    .hero-tabs span.active {
+      background: rgba(93, 199, 255, 0.25);
+      color: var(--text-0);
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
 
-.datasets {
-    margin-top: 24px;
-}
+    .glass-card {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 30px;
+      border-radius: 16px;
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+      text-align: left;
+      line-height: 1.8;
+    }
 
-.dataset-item {
-    padding: 20px;
-    border-radius: 12px;
-    background: #f9fafc;
-    margin-bottom: 16px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
+    .glass-card h3 {
+      text-align: center;
+      margin-top: 0;
+      font-size: 20px;
+      color: #cfe5ff;
+    }
 
-.dataset-item:hover {
-    background: #eef1ff;
-}
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 26px;
+    }
 
-.dataset-item strong {
-    font-size: 20px;
-}
+    .btn {
+      padding: 12px 28px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 600;
+      text-decoration: none;
+      color: #021019;
+      background: linear-gradient(135deg, #baf4ff, var(--btn));
+      box-shadow: 0 10px 24px rgba(83, 211, 255, 0.35);
+    }
 
-.dataset-item span {
-    display: block;
-    font-size: 18px;
-    color: #666;
-    margin-top: 6px;
-}
+    .btn.secondary {
+      color: var(--text-0);
+      background: linear-gradient(135deg, rgba(57, 74, 123, 0.8), rgba(23, 33, 73, 0.8));
+      border: 1px solid var(--stroke);
+      box-shadow: none;
+    }
 
-/* ===============================
-   评分表格
-=============================== */
-.rating-table {
-    margin-top: 14px;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
-}
+    .earth-glow {
+      position: absolute;
+      left: 50%;
+      bottom: -140px;
+      transform: translateX(-50%);
+      width: 1200px;
+      height: 320px;
+      background: radial-gradient(circle at 50% 20%, rgba(98, 228, 255, 0.6), transparent 70%);
+      opacity: 0.65;
+      pointer-events: none;
+    }
 
-.rating-cell {
-    background: white;
-    border-radius: 8px;
-    padding: 10px 6px;
-    text-align: center;
-    border: 1px solid rgba(0,0,0,0.06);
-}
+    @media (max-width: 900px) {
+      .nav {
+        padding: 16px 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
 
-.rating-label {
-    font-size: 14px;
-    color: #888;
-}
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+      }
 
-.rating-score {
-    font-size: 20px;
-    font-weight: 600;
-    color: #4f6ef7;
-}
+      .glass-card {
+        padding: 20px;
+      }
 
-/* ===============================
-   日志输出
-=============================== */
-.search-log {
-    display: none;              /* 🔥 默认不显示 */
-    margin-top: 20px;
-    max-width: 760px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: left;
-    font-size: 15px;
-    color: #cdd5ff;
-    line-height: 1.6;
-}
-.search-log .log-item {
-    opacity: 0.9;
-}
-/* ===============================
-   选择搜索内容
-=============================== */
-#searchType {
-    padding: 0 12px;
-    height: 48px;
-    border-radius: 8px;
-    border: none;
-    font-size: 16px;
-    background: #ffffff;
-    cursor: pointer;
-}
-/* ===============================
-   暂停按钮
-=============================== */
-#stopBtn {
-    padding: 0 18px;
-    border-radius: 8px;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    background: #ff5c5c;
-    color: white;
-    opacity: 0.7;
-}
-
-#stopBtn:enabled {
-    opacity: 1;
-}
-
-#stopBtn:disabled {
-    cursor: not-allowed;
-}
-
-
-</style>
+      .hero-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
-
 <body>
-
-<!-- Hero -->
-<div class="hero">
-    <h1>SciDataIndex</h1>
-    <p>为科学智能与大模型提供高质量开放数据资源</p>
-
-    <div class="search-box">
-        <div style="display: flex; gap: 10px; justify-content: center;">
-            <!-- 🔽 下拉选择 -->
-            <select id="searchType">
-                <option value="dataset">科学数据</option>
-                <option value="task">科学任务</option>
-            </select>
-            <input
-                type="text"
-                placeholder="搜索数据集名称、学科或关键词"
-                onkeydown="onSearchKeydown(event)"
-            />
-
-            <button id="stopBtn" onclick="stopSearch()" disabled>
-                    停止
-            </button>
-        </div>
+  <div class="stars"></div>
+  <header class="nav">
+    <div class="brand">
+      <span class="brand-logo"></span>
+      SciDataIndex
     </div>
-    <div class="search-log" id="searchLog"></div>
-</div>
+    <nav class="nav-links">
+      <a href="data_rank.html">数据榜单</a>
+      <a href="#">模型榜单</a>
+      <a href="#">评价说明</a>
+      <a href="#">关于我们</a>
+    </nav>
+    <div class="nav-action">EN</div>
+  </header>
 
-<!-- 主体 -->
-<div class="page">
-    <div class="container">
-
-        <!-- 专题推荐 -->
-        <section class="section">
-            <div class="section-title">专题推荐</div>
-            <div class="topics" id="topics"></div>
-        </section>
-
-        <!-- 数据集 -->
-        <section class="section">
-            <div class="dataset-panel">
-                <div class="section-title" id="datasetTitle"></div>
-                <div class="datasets" id="datasets"></div>
-            </div>
-        </section>
-
+  <main class="hero">
+    <div class="hero-tabs">
+      <span class="active">AI for Science 评价体系</span>
+      <span>探索科学与人工智能边界</span>
     </div>
-</div>
+    <h1 class="hero-title">SciDataIndex</h1>
+    <div class="hero-subtitle">科学地平线 | 科学智能综合评价平台</div>
 
-<script>
-// const API_BASE = "http://10.3.36.114:8000/api";
-const API_BASE = "http://localhost:8000/api";
+    <section class="glass-card">
+      <h3>AI4Science 数据 + 大模型 评价体系</h3>
+      <p>
+        SciDataIndex 平台由中国科学院计算机网络信息中心牵头建设，面向 AI4Science 的数据与模型评估场景，
+        聚焦开放性、规模性、影响力与 AI 就绪度等维度，构建可持续的科学数据质量评价坐标系，
+        以支持科研机构与产业伙伴快速识别高价值数据资源。
+      </p>
+    </section>
 
-const DATASETS = {
-    "地球科学": [
-        {
-            "name": "Coupled Model Intercomparison Project",
-            "desc": "耦合气候模型比较项目",
-            "detail": "基于第一性原理计算，提供大规模材料结构与能带性质数据",
-            "rating": {
-                "openness": 8,
-                "quality": 10,
-                "scale": 10,
-                "impact": 6,
-                "safety": 10,
-                "ai_readiness": 6,
-                "total_score": 8.0
-            }
-        },
-        {
-            "name": "Hubble Space Telescope Data",
-            "desc": "哈勃太空望远镜图像观测数据",
-            "detail": "用于研究催化反应路径、吸附能与反应能垒的高质量数据集",
-            "rating": {
-                "openness": 8,
-                "quality": 10,
-                "scale": 8,
-                "impact": 6,
-                "safety": 10,
-                "ai_readiness": 6,
-                "total_score": 7.4
-            }
-        },
-        {
-            "name": "ECMWF reanalysis",
-            "desc": "欧洲气象中心全球气象再分析资料",
-            "detail": "包含 13 万余种小分子的量子化学性质计算结果",
-            "rating": {
-                "openness": 8,
-                "quality": 10,
-                "scale": 8,
-                "impact": 0,
-                "safety": 7,
-                "ai_readiness": 7,
-                "total_score": 5.95
-            }
-        },
-        {
-            "name": "Sloan Digital Sky Survey",
-            "desc": "斯隆数字天空巡天",
-            "detail": "包含 13 万余种小分子的量子化学性质计算结果",
-            "rating": {
-                "openness": 8,
-                "quality": 9,
-                "scale": 8,
-                "impact": 6,
-                "safety": 7,
-                "ai_readiness": 6,
-                "total_score": 7.15
-            }
-        },
-        {
-            "name": "Event Horizon Telescope Observations",
-            "desc": "事件视界望远镜观测数据",
-            "detail": "包含 13 万余种小分子的量子化学性质计算结果",
-            "rating": {
-                "openness": 10,
-                "quality": 0,
-                "scale": 9,
-                "impact": 6,
-                "safety": 7,
-                "ai_readiness": 6,
-                "total_score": 6.75
-            }
-        }
-    ],
-    "神经科学": [
-        {
-            "name": "Hemibrain Connectome Dataset",
-            "desc": "果蝇半脑连接组图谱",
-            "detail": "高分辨率人类脑结构与功能连接数据",
-            "rating": {
-                "openness": 8,
-                "quality": 9,
-                "scale": 7,
-                "impact": 2,
-                "safety": 7,
-                "ai_readiness": 6,
-                "total_score": 5.85
-            }
-        },
-        {
-            "name": "HMC Sleep Staging Dataset",
-            "desc": "五分类睡眠分期脑电数据集",
-            "detail": "提供多尺度脑区基因表达与解剖结构信息",
-            "rating": {
-                "openness": 8,
-                "quality": 9,
-                "scale": 4,
-                "impact": 4,
-                "safety": 7,
-                "ai_readiness": 6,
-                "total_score": 5.45
-            }
-        },
-        {
-            "name": "BOLD5000",
-            "desc": "一个大规模、慢速事件相关的fMRI数据集",
-            "detail": "基于高通道电极的神经元放电记录数据",
-            "rating": {
-                "openness": 9,
-                "quality": 9,
-                "scale": 5,
-                "impact": 2,
-                "safety": 7,
-                "ai_readiness": 6,
-                "total_score": 5.35
-            }
-        },
-        {
-            "name": "RSNA Intracranial Hemorrhage Detection",
-            "desc": "RSNA颅内出血检测/分类数据集",
-            "detail": "基于高通道电极的神经元放电记录数据",
-            "rating": {
-                "openness": 0,
-                "quality": 0,
-                "scale": 5,
-                "impact": 6,
-                "safety": 10,
-                "ai_readiness": 4,
-                "total_score": 4.3
-            }
-        },
-        {
-            "name": "APT-36K",
-            "desc": "用于动物姿态估计与跟踪的大规模基准数据集",
-            "detail": "基于高通道电极的神经元放电记录数据",
-            "rating": {
-                "openness": 8,
-                "quality": 9,
-                "scale": 4,
-                "impact": 2,
-                "safety": 7,
-                "ai_readiness": 9,
-                "total_score": 5.55
-            }
-        }
-    ],
-    "生命科学": [
-        {
-            "name": "AlphaFold Protein Structure Database",
-            "desc": "AlphaFold数据库",
-            "detail": "全球最大的核酸序列存储与共享数据库之一",
-            "rating": {
-                "openness": 8,
-                "quality": 10,
-                "scale": 7,
-                "impact": 6,
-                "safety": 7,
-                "ai_readiness": 6,
-                "total_score": 6.95
-            }
-        },
-        {
-            "name": "STRING — Search Tool for the Retrieval of Interacting Genes/Proteins",
-            "desc": "STRING蛋白交互网络数据库",
-            "detail": "提供高质量的蛋白质序列、功能与结构注释信息",
-            "rating": {
-                "openness": 8,
-                "quality": 9,
-                "scale": 5,
-                "impact": 8,
-                "safety": 7,
-                "ai_readiness": 5,
-                "total_score": 6.55
-            }
-        },
-        {
-            "name": "Universal Protein Resource",
-            "desc": "蛋白质统一资源库",
-            "detail": "通过单细胞测序技术构建人体细胞参考图谱",
-            "rating": {
-                "openness": 8,
-                "quality": 10,
-                "scale": 4,
-                "impact": 8,
-                "safety": 7,
-                "ai_readiness": 6,
-                "total_score": 6.55
-            }
-        },
-        {
-            "name": "InterPro",
-            "desc": "综合蛋白质家族、结构域和功能位点注释数据库",
-            "detail": "通过单细胞测序技术构建人体细胞参考图谱",
-            "rating": {
-                "openness": 0,
-                "quality": 10,
-                "scale": 6,
-                "impact": 6,
-                "safety": 7,
-                "ai_readiness": 8,
-                "total_score": 6.25
-            }
-        },
-        {
-            "name": "SPICE: Substituted, Polar, Intermolecular, Conformational, and Electronic dataset",
-            "desc": "SPICE分子力场机器学习数据集",
-            "detail": "通过单细胞测序技术构建人体细胞参考图谱",
-            "rating": {
-                "openness": 9,
-                "quality": 9,
-                "scale": 4,
-                "impact": 6,
-                "safety": 7,
-                "ai_readiness": 8,
-                "total_score": 6.45
-            }
-        }
-    ]
-};
-
-let currentTopic = null;
-const DEFAULT_TOPIC = "地球科学";
-let currentFetchController = null;
-let currentEventSource = null;
-let searchCanceled = false;
-let logCursor = 0;
-/* ===============================
-   搜索
-=============================== */
-async function onSearchKeydown(e) {
-    if (e.key === "Enter") {
-        // 获取输入框中的值
-        const query = e.target.value.trim();
-         // 🔥 新增：获取当前下拉选项
-        const searchType = document.getElementById("searchType").value;
-        console.log("searchType: " + searchType);
-         // ✅ 1. 新搜索正式开始
-        resetSearchLog();
-        searchCanceled = false;
-
-        // ✅ 2. 启用停止按钮
-        document.getElementById("stopBtn").disabled = false;
-
-        // ✅ 3. 启动日志流（只在搜索时）
-        startLogStream();
-
-        // ✅ 4. 创建 fetch 的 abort controller
-        currentFetchController = new AbortController();
-
-        // 如果输入不为空，跳转到 dataset.html 页面，并传递 query 参数
-        if (query) {
-            // window.location.href = `dataset.html?id=${encodeURIComponent(query)}`;
-            try {
-                // logSearch(`🔍 接收到查询：${query}`);
-                // logSearch("📡 正在判断是否为已知数据集…");
-                const res = await fetch(
-                  `${API_BASE}/dataset-exists?query=${encodeURIComponent(query)}&type=${searchType}`
-                );
-                console.log(res);
-                if (!res.ok) throw new Error("check failed");
-
-                if (searchCanceled) return;
-                const data = await res.json();
-                if (searchCanceled) return;
-
-                if (data.type === "dataset" && data.exists) {
-                    // ✅ 已知数据集 → 数据集详情页
-                    window.location.href =
-                        `dataset.html?id=${encodeURIComponent(data.dataset_id)}`;
-
-                }
-                else if (data.type === "dataset" && !data.exists) {
-                    // ❌ 数据集名但未收录
-                    alert("❌ 未找到该数据集，请检查名称或尝试关键词搜索");
-
-                }
-                else if (data.type === "text") {
-                    // 🔥 自然语言 / 描述 → 搜索结果页
-                    window.location.href =
-                        `result.html?q=${encodeURIComponent(query)}`;
-
-                }
-                else {
-                    alert("⚠️ 无法识别输入内容");
-                }
-
-              } catch (err) {
-                if (err.name === "AbortError") {
-                    logSearch("⏹️ 搜索已停止");
-                } else {
-                    console.error(err);
-                    alert("⚠️ 系统异常，请稍后再试");
-                }
-              }
-              finally {
-                document.getElementById("stopBtn").disabled = true;
-                currentFetchController = null;
-              }
-        }
-    }
-}
-
-/* ===============================
-   学科 & 数据集
-=============================== */
-async function loadTopics() {
-    const topics = Object.keys(DATASETS);
-    const el = document.getElementById("topics");
-    el.innerHTML = "";
-
-    let defaultEl = null;
-
-    topics.forEach(t => {
-        const div = document.createElement("div");
-        div.className = "topic-card";
-        div.innerText = t;
-        div.onclick = () => selectTopic(t, div);
-        el.appendChild(div);
-
-        // 🔥 记录默认学科对应的 DOM
-        if (t === DEFAULT_TOPIC) {
-            defaultEl = div;
-        }
-    });
-
-    // 🔥 页面首次加载时，自动选中「物质科学」
-    if (defaultEl) {
-        selectTopic(DEFAULT_TOPIC, defaultEl);
-    }
-}
-
-async function selectTopic(topic, el) {
-    currentTopic = topic;
-    document
-        .querySelectorAll(".topic-card")
-        .forEach(n => n.classList.remove("active"));
-    el.classList.add("active");
-
-    const data = DATASETS[topic] || [];
-    renderDatasets(data, `${topic} · 数据集`);
-}
-
-function renderDatasets(datasets, title) {
-    document.getElementById("datasetTitle").innerText = title;
-    const el = document.getElementById("datasets");
-    el.innerHTML = "";
-
-    datasets.forEach(ds => {
-        const div = document.createElement("div");
-        div.className = "dataset-item";
-
-         // 🔥 核心：点击跳转到统一详情页
-        div.onclick = () => {
-            window.location.href =
-                `dataset.html?id=${encodeURIComponent(ds.name)}`;
-        };
-
-        div.innerHTML = `
-            <strong>${ds.name}</strong>
-            <span>${ds.desc}</span>
-
-            <div class="rating-table">
-                <div class="rating-cell">
-                    <div class="rating-label">开放性</div>
-                    <div class="rating-score">${ds.rating?.openness ?? "-"}</div>
-                </div>
-                <div class="rating-cell">
-                    <div class="rating-label">数据集规模</div>
-                    <div class="rating-score">${ds.rating?.scale ?? "-"}</div>
-                </div>
-                <div class="rating-cell">
-                    <div class="rating-label">影响力</div>
-                    <div class="rating-score">${ds.rating?.impact ?? "-"}</div>
-                </div>
-                <div class="rating-cell">
-                    <div class="rating-label">安全性</div>
-                    <div class="rating-score">${ds.rating?.safety ?? "-"}</div>
-                </div>
-                <div class="rating-cell">
-                    <div class="rating-label">AI就绪度</div>
-                    <div class="rating-score">${ds.rating?.ai_readiness ?? "-"}</div>
-                </div>
-                <div class="rating-cell">
-                    <div class="rating-label">数据质量</div>
-                    <div class="rating-score">${ds.rating?.quality ?? "-"}</div>
-                </div>
-                <div class="rating-cell">
-                    <div class="rating-label">综合评分</div>
-                    <div class="rating-score">${ds.rating?.total_score ?? "-"}</div>
-                </div>
-            </div>
-        `;
-        el.appendChild(div);
-    });
-}
-
-function logSearch(msg) {
-    const log = document.getElementById("searchLog");
-
-    if (log.style.display === "none") {
-        log.style.display = "block";
-    }
-
-    const div = document.createElement("div");
-    div.className = "log-item";
-    div.innerText = msg;
-    log.appendChild(div);
-
-    log.scrollTop = log.scrollHeight;
-}
-
-
-/* 初始化 */
-loadTopics();
-function resetSearchLog() {
-    const log = document.getElementById("searchLog");
-    log.innerHTML = "";
-    log.style.display = "none";
-    log.style.opacity = "1";
-}
-
-/**
- * 🔥 页面首次加载 + 浏览器返回都会触发
- */
-window.addEventListener("pageshow", () => {
-    resetSearchLog();
-});
-
-function startLogStream() {
-    // 🔥 关键：先关旧的
-    if (currentEventSource) {
-        currentEventSource.close();
-        currentEventSource = null;
-    }
-
-    currentEventSource = new EventSource(`${API_BASE}/log-stream?since=${logCursor}`);
-
-    currentEventSource.onmessage = (e) => {
-        if (!searchCanceled) {
-            logSearch("📡 " + e.data);
-            // 🔥 4️⃣ 关键：每成功处理一条日志，就前进游标
-            logCursor++;
-        }
-    };
-
-    currentEventSource.onerror = () => {
-        currentEventSource.close();
-    };
-}
-
-function stopSearch() {
-    searchCanceled = true;
-
-    logSearch("⏹️ 用户停止了搜索");
-
-    // 1️⃣ 中断 fetch
-    if (currentFetchController) {
-        currentFetchController.abort(); // 停止等待后端响应
-        currentFetchController = null;
-    }
-
-    // 2️⃣ 关闭日志流
-    if (currentEventSource) {
-        currentEventSource.close(); // 不再接收日志
-        currentEventSource = null;
-    }
-
-    // 3️⃣ 禁用按钮
-    document.getElementById("stopBtn").disabled = true; // 现在已经没有搜索在进行
-}
-
-// es.onmessage = (e) => {
-//     logSearch("📡 " + e.data);
-// };
-
-</script>
-
+    <div class="hero-actions">
+      <a class="btn secondary" href="#">查看模型榜单</a>
+      <a class="btn" href="data_rank.html">查看数据榜单</a>
+    </div>
+    <div class="earth-glow"></div>
+  </main>
 </body>
 </html>

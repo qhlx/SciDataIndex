@@ -1,0 +1,45 @@
+{
+  "dataset": "欧洲气象中心全球气象再分析资料 V5单层变量",
+  "intro": {
+    "official_link": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=download",
+    "brief_description": "ERA5 是由欧洲中期天气预报中心（ECMWF）发布的第五代全球气候再分析数据集，V5单层变量",
+    "detailed_description": "数据集简述\nERA5 是由欧洲中期天气预报中心（ECMWF）发布的第五代全球气候再分析数据集。提供了全球范围内高时空分辨率的大气、海洋和陆地表面气象变量，全面覆盖每小时全球多层次气象状态，已广泛应用于气象分析、气候研究、环境建模及可再生能源评估等领域。\n数据集内容\n单层变量（Single Level Data） 变量包括：地表风、温度、降水、云量、海面温度等；辐射变量：入射太阳辐射、长波辐射通量，土壤温度、水分、平均波高、波向、波周期等。\n关键元信息\n文件为逐日，但每个文件包含逐小时数据 ，空间分辨率：0.25° × 0.25° 覆盖时间范围：1950 年至今 格式：NetCDF（地表数据）\n重要应用场景\n全球气象分析，天气预报模型建模，AI同化系统构建、大气科学理论研究"
+  },
+  "openness": {
+    "license_type": "CC BY 4.0",
+    "license_source_link": "https://forum.ecmwf.int/t/cc-by-licence-to-replace-licence-to-use-copernicus-products-on-02-july-2025/13464",
+    "charging_mode": "完全免费",
+    "access_restrictions": "分批下载",
+    "application_difficulty": "无需申请"
+  },
+  "data_scale": {
+    "data_volume": "419839200MB",
+    "data_volume_mb": "419839200.0",
+    "source_of_data_volume": "采样日单变量全球数据大小为48.23MB，共279个变量，时间从1940-2025年10月，共31350天。考虑部分变量之间数据量大小可能存在差异，实际值应比估计值小，但不会偏差很大",
+    "estimated_manually": "是"
+  },
+  "impact": {
+    "paper_link": "https://rmets.onlinelibrary.wiley.com/doi/full/10.1002/qj.3803",
+    "paper_citations_raw": "nan",
+    "paper_citations": "-",
+    "google_scholar_related_papers": "83400.0",
+    "google_scholar_screenshot": "image.png",
+    "download_volume_or_user_count": "-",
+    "models_using_this_dataset": "nan"
+  },
+  "safety": {
+    "control_level": "部分管控",
+    "traceability": "有元数据"
+  },
+  "AI_readiness": {
+    "annotation_density": "无标注",
+    "preprocessing_level": "已经过标准化处理",
+    "format_consistency": "格式不统一"
+  },
+  "data_quality": {
+    "integrity": "部分缺失",
+    "first_release_date": "2018/06/14",
+    "source_link": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=download",
+    "last_update_date": "2025/10/27"
+  }
+}

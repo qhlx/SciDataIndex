@@ -1,0 +1,45 @@
+{
+  "dataset": "Event Horizon Telescope observations",
+  "intro": {
+    "official_link": "https://eventhorizontelescope.org/for-astronomers/data",
+    "brief_description": "EHT 2017 年对 Centaurus A 射电喷流发射与准直的校准干涉观测数据",
+    "detailed_description": "该数据集公开了 EHT 2017 年对 Centaurus A 射电喷流发射与准直的校准干涉观测数据，涵盖低高频段，处理自多条独立流程，支持射电 VLBI 成像和喷流物理研究。"
+  },
+  "openness": {
+    "license_type": "PDDL",
+    "license_source_link": "https://datacommons.cyverse.org/browse/iplant/home/shared/commons_repo/curated/EHTC_M87pol2017_Nov2023",
+    "charging_mode": "完全免费",
+    "access_restrictions": "全量下载",
+    "application_difficulty": "无需申请"
+  },
+  "data_scale": {
+    "data_volume": "5PB",
+    "data_volume_mb": "5368709120.0",
+    "source_of_data_volume": "https://eventhorizontelescope.org/faq?utm_source=chatgpt.com",
+    "estimated_manually": "否"
+  },
+  "impact": {
+    "paper_link": "https://www.mdpi.com/2075-4434/10/6/113",
+    "paper_citations_raw": "nan",
+    "paper_citations": "-",
+    "google_scholar_related_papers": "85500.0",
+    "google_scholar_screenshot": "image.png",
+    "download_volume_or_user_count": "5.3k 星标和500 复刻",
+    "models_using_this_dataset": "nan"
+  },
+  "safety": {
+    "control_level": "不受管控",
+    "traceability": "有元数据"
+  },
+  "AI_readiness": {
+    "annotation_density": "无标注",
+    "preprocessing_level": "已经过标准化处理",
+    "format_consistency": "格式不统一"
+  },
+  "data_quality": {
+    "integrity": "无缺失值",
+    "first_release_date": "nan",
+    "source_link": "nan",
+    "last_update_date": "nan"
+  }
+}

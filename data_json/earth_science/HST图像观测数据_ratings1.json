@@ -1,0 +1,45 @@
+{
+  "dataset": "HST图像观测数据",
+  "intro": {
+    "official_link": "https://archive.stsci.edu/missions-and-data/hst",
+    "brief_description": "HST（Hubble Space Telescope）是由美国国家航空航天局（NASA）和欧洲空间局（ESA）联合开发并于1990年发射的一台空间望远镜。其在地球大气层外运行，避免了大气湍流对光学观测的干扰，能获得具有极高空间分辨率（~0.04 arcsec）的清晰图像，适用于研究遥远或精细结构的天体。",
+    "detailed_description": "数据集简述：HST（Hubble Space Telescope）是由美国国家航空航天局（NASA）和欧洲空间局（ESA）联合开发并于1990年发射的一台空间望远镜。其在地球大气层外运行，避免了大气湍流对光学观测的干扰，能获得具有极高空间分辨率（~0.04 arcsec）的清晰图像，适用于研究遥远或精细结构的天体。我们主要收集了由成像仪器WFC3（Wide Field Camera 3）和ACS（Advanced Camera for Surveys）捕获的数据。\n数据集内容：HST图像数据以高分辨率FITS格式存储，覆盖紫外到近红外波段，视场较小，但图像深度大，适用于高质量研究。HST图像通常包含多个HDU（如主图像、误差图、掩模图等），可观测到星系内部结构、恒星形成区等细节。\n关键元信息：FITS 文件主要由 Header（头部） 和 Data（数据）组成。Header 是 FITS 文件的元数据部分，包含有关数据的关键信息，包括精确的WCS坐标、曝光时间、滤镜编号、观测仪器等信息，并附有误差图和数据质量标志等。Data 是 FITS 文件存储的主观测数据部分，存储图像等科学数据。\n重要应用场景：HST图像因其高分辨率，广泛应用于星系结构建模、强引力透镜、早期宇宙研究、恒星形成及超新星观测等高精度科学任务。"
+  },
+  "openness": {
+    "license_type": "CC BY 4.0",
+    "license_source_link": "https://esahubble.org/copyright/?utm_source=chatgpt.com",
+    "charging_mode": "完全免费",
+    "access_restrictions": "全量下载",
+    "application_difficulty": "无需申请"
+  },
+  "data_scale": {
+    "data_volume": "161tb",
+    "data_volume_mb": "168820736.0",
+    "source_of_data_volume": "https://hst-docs.stsci.edu/hsp/the-hubble-space-telescope-primer-for-cycle-33/hst-primer-data-processing-and-the-hst-data-archive?utm_source=chatgpt.com",
+    "estimated_manually": "否"
+  },
+  "impact": {
+    "paper_link": "https://adsabs.harvard.edu/full/1995ASPC...77..158B",
+    "paper_citations_raw": "nan",
+    "paper_citations": "-",
+    "google_scholar_related_papers": "16100.0",
+    "google_scholar_screenshot": "image.png",
+    "download_volume_or_user_count": "-",
+    "models_using_this_dataset": "CNN / U-Net / ResNet / Vision Transformer"
+  },
+  "safety": {
+    "control_level": "部分管控",
+    "traceability": "有元数据"
+  },
+  "AI_readiness": {
+    "annotation_density": "无标注",
+    "preprocessing_level": "已经过标准化处理",
+    "format_consistency": "格式不统一"
+  },
+  "data_quality": {
+    "integrity": "部分缺失",
+    "first_release_date": "1933/02/01",
+    "source_link": "https://www.re3data.org/repository/r3d100010403?utm_source=chatgpt.com",
+    "last_update_date": "2025/09/17"
+  }
+}

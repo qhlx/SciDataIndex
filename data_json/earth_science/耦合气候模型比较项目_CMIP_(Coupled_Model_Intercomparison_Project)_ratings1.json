@@ -1,0 +1,45 @@
+{
+  "dataset": "耦合气候模型比较项目 CMIP (Coupled Model Intercomparison Project)",
+  "intro": {
+    "official_link": "https://wcrp-cmip.org/",
+    "brief_description": "耦合气候模型比较项目CMIP（Coupled Model Intercomparison Project）是一个用于比较不同耦合气候模型的项目，通过该项目可以获取与之相关的数据集。",
+    "detailed_description": "耦合气候模型比较项目CMIP（Coupled Model Intercomparison Project）是一个用于比较不同耦合气候模型的项目，通过该项目可以获取与之相关的数据集。该项目在气候研究领域有着重要作用，有助于科学家们评估和改进气候模型，从而更好地理解气候系统的变化和预测未来气候变化趋势。"
+  },
+  "openness": {
+    "license_type": "CC BY 4.0",
+    "license_source_link": "https://pcmdi.llnl.gov/CMIP6/TermsOfUse/TermsOfUse6-2.html",
+    "charging_mode": "完全免费",
+    "access_restrictions": "分批下载",
+    "application_difficulty": "无需申请"
+  },
+  "data_scale": {
+    "data_volume": "27.936PB",
+    "data_volume_mb": "29996051595.264",
+    "source_of_data_volume": "https://www.wcrp-climate.org/images/modelling/WGCM/WGCM25/Day2_10_Durack_CMIP6_Update.pdf",
+    "estimated_manually": "nan"
+  },
+  "impact": {
+    "paper_link": "https://doi.org/10.5194/gmd-9-1937-2016",
+    "paper_citations_raw": "nan",
+    "paper_citations": "-",
+    "google_scholar_related_papers": "84800.0",
+    "google_scholar_screenshot": "image.png",
+    "download_volume_or_user_count": "176 星标, 86 复刻",
+    "models_using_this_dataset": "用于训练/对比统计降尺度与后处理模型：CNN、时序Transformer、混合物理+ML（Physics-informed NN）、集成学习（多模式加权）。"
+  },
+  "safety": {
+    "control_level": "部分管控",
+    "traceability": "有元数据"
+  },
+  "AI_readiness": {
+    "annotation_density": "无标注",
+    "preprocessing_level": "已预经过处理",
+    "format_consistency": "格式统一"
+  },
+  "data_quality": {
+    "integrity": "无缺失值",
+    "first_release_date": "2019/04/16",
+    "source_link": "https://pcmdi.llnl.gov/CMIP6/ArchiveStatistics/esgf_data_holdings/CMIP/index.html",
+    "last_update_date": "2025/07/02"
+  }
+}

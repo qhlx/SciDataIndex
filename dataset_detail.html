@@ -323,8 +323,9 @@
     }
 
     const datasetName = getParam("name") || "3D Turbulence DNS dataset";
-    const fileParam = getParam("file") || toFileName(datasetName);
-    const filePath = `data_json/${fileParam}`;
+    const fileParam = getParam("file");
+    const categoryParam = getParam("category");
+    const aliasMapPath = "dataset_alias_map.json";
 
     const detailList = document.getElementById("detailList");
     const titleEl = document.getElementById("datasetTitle");
@@ -470,11 +471,60 @@
       opennessTab.click();
     }
 
+    async function resolveDatasetName() {
+      try {
+        const res = await fetch(aliasMapPath);
+        if (!res.ok) return datasetName;
+        const map = await res.json();
+        if (map && map[datasetName]) return map[datasetName];
+        const keyLower = datasetName.toLowerCase();
+        for (const [alias, mapped] of Object.entries(map || {})) {
+          if (alias.toLowerCase() === keyLower) return mapped;
+        }
+        return datasetName;
+      } catch {
+        return datasetName;
+      }
+    }
+
     async function loadDataset() {
       try {
-        const res = await fetch(filePath);
-        if (!res.ok) throw new Error("not found");
-        const data = await res.json();
+        const mappedName = await resolveDatasetName();
+        const mappedFile = toFileName(mappedName);
+        const fallbackFile = fileParam || toFileName(datasetName);
+        const candidates = [];
+
+        if (categoryParam) {
+          candidates.push(`data_json/${categoryParam}/${mappedFile}`);
+          if (fallbackFile !== mappedFile) {
+            candidates.push(`data_json/${categoryParam}/${fallbackFile}`);
+          }
+        }
+
+        candidates.push(`data_json/${mappedFile}`);
+        if (fallbackFile !== mappedFile) {
+          candidates.push(`data_json/${fallbackFile}`);
+        }
+
+        ["earth_science", "neuro_science", "life_science"].forEach(folder => {
+          candidates.push(`data_json/${folder}/${mappedFile}`);
+          if (fallbackFile !== mappedFile) {
+            candidates.push(`data_json/${folder}/${fallbackFile}`);
+          }
+        });
+
+        let data = null;
+        let loadedPath = null;
+        for (const path of candidates) {
+          console.log(`尝试加载数据集文件: ${path}`);
+          const res = await fetch(path);
+          if (res.ok) {
+            data = await res.json();
+            loadedPath = path;
+            break;
+          }
+        }
+        if (!data) throw new Error("not found");
 
         titleEl.textContent = data.dataset || datasetName;
         briefEl.textContent = data.intro?.brief_description || "暂无简介";
@@ -499,7 +549,7 @@
         briefEl.textContent = "请确认 data_json 目录下存在对应的数据集 JSON 文件。";
         buildTabs(null);
         detailList.innerHTML = "";
-        addDetail("加载错误", `无法加载 ${filePath}`);
+        addDetail("加载错误", "无法加载匹配的数据集文件，请检查映射表与文件路径。");
         drawRadar([0, 0, 0, 0, 0, 0]);
       }
     }

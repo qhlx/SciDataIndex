@@ -345,7 +345,8 @@
     }
 
     function getScore(data, key) {
-      const rating = data.rating || data.scores || {};
+      const rating = data.scores || data.ratings || {};
+       console.log("type:", typeof rating[key]);
       if (typeof rating[key] === "number") return rating[key];
       return null;
     }

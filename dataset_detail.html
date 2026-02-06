@@ -288,7 +288,6 @@
       <h1 id="datasetTitle">数据集名称</h1>
       <p id="datasetBrief">这里展示数据集简介。</p>
       <div class="hero-actions">
-        <a class="btn" id="officialLink" href="#" target="_blank" rel="noreferrer">官方链接</a>
         <span class="meta-badge" id="tagCategory">所属类别</span>
       </div>
     </div>
@@ -330,7 +329,6 @@
     const detailList = document.getElementById("detailList");
     const titleEl = document.getElementById("datasetTitle");
     const briefEl = document.getElementById("datasetBrief");
-    const officialLink = document.getElementById("officialLink");
     const tagCategory = document.getElementById("tagCategory");
     const tabBar = document.getElementById("tabBar");
 
@@ -436,28 +434,22 @@
       renderTab("scale", "数据集规模", () => {
         addDetail("数据体量", data?.data_scale?.data_volume);
         addDetail("数据体量来源", data?.data_scale?.source_of_data_volume);
-        addDetail("是否人工估算", data?.data_scale?.estimated_manually);
       });
 
       renderTab("impact", "影响力", () => {
         addDetail("引用与论文", data?.impact?.paper_link);
-        addDetail("引用量/被引", data?.impact?.paper_citations);
         addDetail("相关论文数", data?.impact?.google_scholar_related_papers);
-        addDetail("下载或用户量", data?.impact?.download_volume_or_user_count);
-        addDetail("下游模型使用", data?.impact?.models_using_this_dataset);
       });
 
       renderTab("safety", "安全性", () => {
         addDetail("管控级别", data?.safety?.control_level);
         addDetail("可追溯性", data?.safety?.traceability);
-        addDetail("合规与风险", "");
       });
 
       renderTab("ai", "AI 就绪度", () => {
         addDetail("标注密度", data?.AI_readiness?.annotation_density);
         addDetail("预处理程度", data?.AI_readiness?.preprocessing_level);
         addDetail("格式一致性", data?.AI_readiness?.format_consistency);
-        addDetail("可用性补充", "");
       });
 
       renderTab("quality", "数据质量", () => {
@@ -528,9 +520,19 @@
 
         titleEl.textContent = data.dataset || datasetName;
         briefEl.textContent = data.intro?.brief_description || "暂无简介";
-        officialLink.href = data.intro?.official_link || "#";
-        officialLink.textContent = data.intro?.official_link ? "官方链接" : "暂无链接";
-        tagCategory.textContent = getParam("category") || "所属类别未知";
+        if (loadedPath) {
+          if (loadedPath.includes("/earth_science/")) {
+            tagCategory.textContent = "地球科学";
+          } else if (loadedPath.includes("/neuro_science/")) {
+            tagCategory.textContent = "神经科学";
+          } else if (loadedPath.includes("/life_science/")) {
+            tagCategory.textContent = "生命科学";
+          } else {
+            tagCategory.textContent = "所属类别未知";
+          }
+        } else {
+          tagCategory.textContent = "所属类别未知";
+        }
 
         buildTabs(data);
 

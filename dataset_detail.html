@@ -580,6 +580,7 @@
         buildTabs(data);
 
         const scoreData = await loadScores(mappedName, datasetName, categoryFromPath);
+        console.log("加载的评分数据对象:", scoreData);
         const scoreSource = scoreData || data;
         const scores = [
           getScore(scoreSource, "openness"),

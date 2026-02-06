@@ -494,17 +494,17 @@
         }
       }
 
-      candidates.push(`${scoreRoot}/${mappedFile}`);
-      if (fallbackFile !== mappedFile) {
-        candidates.push(`${scoreRoot}/${fallbackFile}`);
-      }
+      // candidates.push(`${scoreRoot}/${mappedFile}`);
+      // if (fallbackFile !== mappedFile) {
+      //   candidates.push(`${scoreRoot}/${fallbackFile}`);
+      // }
 
-      ["earth_science", "neuro_science", "life_science"].forEach(folder => {
-        candidates.push(`${scoreRoot}/${folder}/${mappedFile}`);
-        if (fallbackFile !== mappedFile) {
-          candidates.push(`${scoreRoot}/${folder}/${fallbackFile}`);
-        }
-      });
+      //["earth_science", "neuro_science", "life_science"].forEach(folder => {
+      //  candidates.push(`${scoreRoot}/${folder}/${mappedFile}`);
+      //  if (fallbackFile !== mappedFile) {
+      //    candidates.push(`${scoreRoot}/${folder}/${fallbackFile}`);
+      //  }
+      //});
 
       for (const path of candidates) {
         console.log(`尝试加载评分数据文件: ${path}`);
@@ -533,17 +533,17 @@
           }
         }
 
-        candidates.push(`data_json/${mappedFile}`);
-        if (fallbackFile !== mappedFile) {
-          candidates.push(`data_json/${fallbackFile}`);
-        }
+        //candidates.push(`data_json/${mappedFile}`);
+        //if (fallbackFile !== mappedFile) {
+        //  candidates.push(`data_json/${fallbackFile}`);
+        //}
 
-        ["earth_science", "neuro_science", "life_science"].forEach(folder => {
-          candidates.push(`data_json/${folder}/${mappedFile}`);
-          if (fallbackFile !== mappedFile) {
-            candidates.push(`data_json/${folder}/${fallbackFile}`);
-          }
-        });
+        //["earth_science", "neuro_science", "life_science"].forEach(folder => {
+        //  candidates.push(`data_json/${folder}/${mappedFile}`);
+        //  if (fallbackFile !== mappedFile) {
+        //    candidates.push(`data_json/${folder}/${fallbackFile}`);
+        //  }
+        //});
 
         let data = null;
         let loadedPath = null;

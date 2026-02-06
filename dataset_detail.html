@@ -345,11 +345,11 @@
     }
 
     function getScore(data, key) {
-      const rating = data.scores || data.ratings || {};
       console.log(key, data[key]);
-      console.log("type:", typeof rating.openness, "value:", rating.openness);
-      if (typeof rating[key] === "number") return rating[key];
-      return null;
+      // console.log("type:", typeof rating.openness, "value:", rating.openness);
+      // if (typeof rating[key] === "number") return rating[key];
+      // return null;
+      return typeof data[key] === "number" ? data[key] : null;
     }
 
     function drawRadar(scores) {

@@ -300,6 +300,22 @@
       background: linear-gradient(135deg, #bfe4ff, #7fe0f5);
     }
 
+    .rank-badge .rank-medal {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .rank-badge.gold,
+    .rank-badge.silver,
+    .rank-badge.bronze {
+      width: auto;
+      height: auto;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      font-size: 32px;
+    }
+
     .rank-name {
       font-size: 14px;
       font-weight: 600;
@@ -415,7 +431,7 @@
       </div>
       <nav class="nav-links">
         <a href="data_ranks/earth_science.html">数据榜单</a>
-        <a href="evaluation.html">评价说明</a>
+        <a href="evaluation.html">技术说明</a>
         <a href="about.html">关于我们</a>
       </nav>
     </div>
@@ -424,18 +440,21 @@
 
   <main class="hero">
     <div class="hero-tabs">
-      <span class="active">AI for Science 评价体系</span>
-      <span>探索科学与人工智能边界</span>
+      <span class="active">AI-Agent 数据评价体系</span>
+      <span>自主智能驱动科学发现</span>
     </div>
     <h1 class="hero-title">SciDataIndex</h1>
-    <div class="hero-subtitle">科学地平线 | 科学智能综合评价平台</div>
+    <div class="hero-subtitle">面向 AI4Science 的科学数据分类分级与评价平台</div>
 
     <section class="glass-card">
-      <h3>AI4Science 数据 + 大模型 评价体系</h3>
+      <h3>AI4Science 科学数据智能评价体系</h3>
       <p>
-        SciDataIndex 平台由中国科学院计算机网络信息中心牵头建设，面向 AI4Science 的数据与模型评估场景，
-        聚焦开放性、规模性、影响力与 AI 就绪度等维度，构建可持续的科学数据质量评价坐标系，
-        以支持科研机构与产业伙伴快速识别高价值数据资源。
+        SciDataIndex 由实验室基于 AI Agent 技术研发，
+        面向 AI4Science 场景，构建覆盖全球的科学数据线索挖掘、
+        分类分级与综合评价体系。
+        平台持续汇聚多源科学数据资源，
+        从开放性、规范性、影响力与可用性等维度进行量化评估，
+        支撑高价值科研数据发现与跨学科创新。
       </p>
     </section>
 
@@ -709,8 +728,12 @@
         const fileName = toFileName(item.name);
         const row = document.createElement("div");
         row.className = "rank-item";
+        const badgeClass = idx === 0 ? "gold" : idx === 1 ? "silver" : idx === 2 ? "bronze" : "";
+        const medalIcon = idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : "";
         row.innerHTML = `
-          <div class="rank-badge">${idx + 1}</div>
+          <div class="rank-badge ${badgeClass}">
+            ${medalIcon || (idx + 1)}
+          </div>
           <a class="rank-name" href="dataset_detail.html?name=${encodeURIComponent(item.name)}&file=${encodeURIComponent(fileName)}">${item.name}</a>
           <div class="rank-score">
             ${formatScore(item.rating?.total_score)}

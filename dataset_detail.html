@@ -486,7 +486,7 @@
       const mappedFile = toFileName(mappedName).replace("_ratings1.json", "_scores.json");
       const fallbackFile = toFileName(fallbackName).replace("_ratings1.json", "_scores.json");
       //const candidates = [];
-      const path = null;
+      let path = null;
 
       if (categoryFromPath) {
         path = `${scoreRoot}/${categoryFromPath}/${mappedFile}`;
@@ -527,7 +527,7 @@
         const mappedFile = toFileName(mappedName);
         const fallbackFile = fileParam || toFileName(datasetName);
         //const candidates = [];
-        const path = null;
+        let path = null;
         console.log(categoryParam)
         if (categoryParam) {
           path = `data_json/${categoryParam}/${mappedFile}`;

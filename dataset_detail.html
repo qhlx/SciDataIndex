@@ -485,37 +485,39 @@
     async function loadScores(mappedName, fallbackName, categoryFromPath) {
       const mappedFile = toFileName(mappedName).replace("_ratings1.json", "_scores.json");
       const fallbackFile = toFileName(fallbackName).replace("_ratings1.json", "_scores.json");
-      const candidates = [];
+      //const candidates = [];
+      const path = null;
 
-      //if (categoryFromPath) {
-      //  candidates.push(`${scoreRoot}/${categoryFromPath}/${mappedFile}`);
+      if (categoryFromPath) {
+        path = `${scoreRoot}/${categoryFromPath}/${mappedFile}`;
+        //candidates.push(`${scoreRoot}/${categoryFromPath}/${mappedFile}`);
       //  if (fallbackFile !== mappedFile) {
       //    candidates.push(`${scoreRoot}/${categoryFromPath}/${fallbackFile}`);
       //  }
-      //}
+      }
 
       // candidates.push(`${scoreRoot}/${mappedFile}`);
       // if (fallbackFile !== mappedFile) {
       //   candidates.push(`${scoreRoot}/${fallbackFile}`);
       // }
 
-      ["earth_science", "neuro_science", "life_science"].forEach(folder => {
-        candidates.push(`${scoreRoot}/${folder}/${mappedFile}`);
-        if (fallbackFile !== mappedFile) {
-          candidates.push(`${scoreRoot}/${folder}/${fallbackFile}`);
-        }
-      });
+      //["earth_science", "neuro_science", "life_science"].forEach(folder => {
+      //  candidates.push(`${scoreRoot}/${folder}/${mappedFile}`);
+      //  if (fallbackFile !== mappedFile) {
+      //    candidates.push(`${scoreRoot}/${folder}/${fallbackFile}`);
+      //  }
+      //});
 
-      for (const path of candidates) {
-        console.log(`尝试加载评分数据文件: ${path}`);
-        const res = await fetch(path);
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.scores) {
-            return data.scores;
-          }
+      //for (const path of candidates) {
+      console.log(`尝试加载评分数据文件: ${path}`);
+      const res = await fetch(path);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.scores) {
+          return data.scores;
         }
       }
+      //}
       return null;
     }
 
@@ -524,38 +526,39 @@
         const mappedName = await resolveDatasetName();
         const mappedFile = toFileName(mappedName);
         const fallbackFile = fileParam || toFileName(datasetName);
-        const candidates = [];
+        //const candidates = [];
+        const path = null;
 
-        //if (categoryParam) {
-        //  candidates.push(`data_json/${categoryParam}/${mappedFile}`);
+        if (categoryParam) {
+          path = `data_json/${categoryParam}/${mappedFile}`;
+          //candidates.push(`data_json/${categoryParam}/${mappedFile}`);
         //  if (fallbackFile !== mappedFile) {
         //    candidates.push(`data_json/${categoryParam}/${fallbackFile}`);
         //  }
-        //}
+        }
 
         //candidates.push(`data_json/${mappedFile}`);
         //if (fallbackFile !== mappedFile) {
         //  candidates.push(`data_json/${fallbackFile}`);
         //}
 
-        ["earth_science", "neuro_science", "life_science"].forEach(folder => {
-          candidates.push(`data_json/${folder}/${mappedFile}`);
-          if (fallbackFile !== mappedFile) {
-            candidates.push(`data_json/${folder}/${fallbackFile}`);
-          }
-        });
+        //["earth_science", "neuro_science", "life_science"].forEach(folder => {
+        //  candidates.push(`data_json/${folder}/${mappedFile}`);
+        //  if (fallbackFile !== mappedFile) {
+        //    candidates.push(`data_json/${folder}/${fallbackFile}`);
+        //  }
+        //});
 
         let data = null;
         let loadedPath = null;
-        for (const path of candidates) {
-          console.log(`尝试加载数据集文件: ${path}`);
-          const res = await fetch(path);
-          if (res.ok) {
-            data = await res.json();
-            loadedPath = path;
-            break;
-          }
+        //for (const path of candidates) {
+        console.log(`尝试加载数据集文件: ${path}`);
+        const res = await fetch(path);
+        if (res.ok) {
+          data = await res.json();
+          loadedPath = path;
         }
+        //}
         if (!data) throw new Error("not found");
 
         titleEl.textContent = data.dataset || datasetName;

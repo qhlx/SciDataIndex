@@ -376,7 +376,7 @@
       row.innerHTML = `
         <div class="rank">${String(index + 1).padStart(2, "0")}</div>
         <div>
-          <a class="dataset-name" href="../dataset_detail.html?name=${encodeURIComponent(ds.name)}&file=${encodeURIComponent(fileName)}">${ds.name}</a>
+          <a class="dataset-name" href="../dataset_detail.html?name=${encodeURIComponent(ds.name)}&file=${encodeURIComponent(fileName)}&category=life_science">${ds.name}</a>
           <div class="dataset-desc">${ds.desc}</div>
         </div>
         <div>${formatScore(openness)}</div>

@@ -505,6 +505,7 @@
       });
 
       for (const path of candidates) {
+        console.log(`尝试加载评分数据文件: ${path}`);
         const res = await fetch(path);
         if (res.ok) {
           const data = await res.json();

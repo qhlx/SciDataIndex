@@ -460,7 +460,7 @@
 
     <div class="hero-actions">
       <a class="btn secondary" href="data_ranks/earth_science.html">地球科学</a>
-      <a class="btn secondary" href="data_ranks/neuroscience.html">神经科学</a>
+      <a class="btn secondary" href="data_ranks/neuro_science.html">神经科学</a>
       <a class="btn secondary" href="data_ranks/life_science.html">生命科学</a>
     </div>
     <div class="earth-glow"></div>
@@ -636,7 +636,7 @@
           }
         },
         {
-          "name": "STRING — Search Tool for the Retrieval of Interacting Genes/Proteins",
+          "name": "STRING",
           "desc": "STRING蛋白交互网络数据库",
           "detail": "提供高质量的蛋白质序列、功能与结构注释信息",
           "rating": {
@@ -678,7 +678,7 @@
           }
         },
         {
-          "name": "SPICE: Substituted, Polar, Intermolecular, Conformational, and Electronic dataset",
+          "name": "SPICE",
           "desc": "SPICE分子力场机器学习数据集",
           "detail": "通过单细胞测序技术构建人体细胞参考图谱",
           "rating": {
@@ -705,6 +705,12 @@
     }
 
     const grid = document.getElementById("rankGrid");
+    const SUBJECT_ICONS = {
+      "地球科学": "🌍",
+      "神经科学": "🧠",
+      "生命科学": "🧬"
+    };
+
     Object.entries(DATASETS).forEach(([subject, datasets]) => {
       const items = [...datasets].sort((a, b) => {
         const scoreA = a.rating?.total_score ?? 0;
@@ -713,9 +719,10 @@
       });
       const card = document.createElement("div");
       card.className = "rank-card";
+      const icon = SUBJECT_ICONS[subject] || "📊";
       card.innerHTML = `
         <div class="rank-card-header">
-          <span>📊 ${subject}榜单</span>
+          <span>${icon} ${subject}榜单</span>
           <span>综合分</span>
         </div>
         <div class="rank-list"></div>

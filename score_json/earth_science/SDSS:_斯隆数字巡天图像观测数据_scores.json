@@ -1,0 +1,13 @@
+{
+  "dataset_name": "SDSS: 斯隆数字巡天图像观测数据",
+  "scores": {
+    "openness": 8,
+    "quality": 9,
+    "scale": 8,
+    "impact": 6,
+    "safety": 7,
+    "ai_readiness": 6,
+    "total_score": 7.15
+  },
+  "updated_at": "2026-01-05 17:17:24"
+}

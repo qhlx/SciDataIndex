@@ -325,6 +325,7 @@
     const fileParam = getParam("file");
     const categoryParam = getParam("category");
     const aliasMapPath = "dataset_alias_map.json";
+    const scoreRoot = "score_json";
 
     const detailList = document.getElementById("detailList");
     const titleEl = document.getElementById("datasetTitle");
@@ -479,6 +480,42 @@
       }
     }
 
+    async function loadScores(mappedName, fallbackName, categoryFromPath) {
+      const mappedFile = toFileName(mappedName).replace("_ratings1.json", "_scores.json");
+      const fallbackFile = toFileName(fallbackName).replace("_ratings1.json", "_scores.json");
+      const candidates = [];
+
+      if (categoryFromPath) {
+        candidates.push(`${scoreRoot}/${categoryFromPath}/${mappedFile}`);
+        if (fallbackFile !== mappedFile) {
+          candidates.push(`${scoreRoot}/${categoryFromPath}/${fallbackFile}`);
+        }
+      }
+
+      candidates.push(`${scoreRoot}/${mappedFile}`);
+      if (fallbackFile !== mappedFile) {
+        candidates.push(`${scoreRoot}/${fallbackFile}`);
+      }
+
+      ["earth_science", "neuro_science", "life_science"].forEach(folder => {
+        candidates.push(`${scoreRoot}/${folder}/${mappedFile}`);
+        if (fallbackFile !== mappedFile) {
+          candidates.push(`${scoreRoot}/${folder}/${fallbackFile}`);
+        }
+      });
+
+      for (const path of candidates) {
+        const res = await fetch(path);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.scores) {
+            return data.scores;
+          }
+        }
+      }
+      return null;
+    }
+
     async function loadDataset() {
       try {
         const mappedName = await resolveDatasetName();
@@ -520,13 +557,17 @@
 
         titleEl.textContent = data.dataset || datasetName;
         briefEl.textContent = data.intro?.brief_description || "暂无简介";
+        let categoryFromPath = "";
         if (loadedPath) {
           if (loadedPath.includes("/earth_science/")) {
             tagCategory.textContent = "地球科学";
+            categoryFromPath = "earth_science";
           } else if (loadedPath.includes("/neuro_science/")) {
             tagCategory.textContent = "神经科学";
+            categoryFromPath = "neuro_science";
           } else if (loadedPath.includes("/life_science/")) {
             tagCategory.textContent = "生命科学";
+            categoryFromPath = "life_science";
           } else {
             tagCategory.textContent = "所属类别未知";
           }
@@ -536,13 +577,15 @@
 
         buildTabs(data);
 
+        const scoreData = await loadScores(mappedName, datasetName, categoryFromPath);
+        const scoreSource = scoreData || data;
         const scores = [
-          getScore(data, "openness"),
-          getScore(data, "scale"),
-          getScore(data, "impact"),
-          getScore(data, "safety"),
-          getScore(data, "ai_readiness"),
-          getScore(data, "quality")
+          getScore(scoreSource, "openness"),
+          getScore(scoreSource, "scale"),
+          getScore(scoreSource, "impact"),
+          getScore(scoreSource, "safety"),
+          getScore(scoreSource, "ai_readiness"),
+          getScore(scoreSource, "quality")
         ];
         const safeScores = scores.map(score => (Number.isFinite(score) ? score : 0));
         drawRadar(safeScores);
